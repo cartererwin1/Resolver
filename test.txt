@@ -1,0 +1,5 @@
+Predicates: buy
+Variables: x3
+Constants: Kim
+buy(x3)
+!buy(x3)
