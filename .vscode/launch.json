@@ -1,0 +1,16 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "lab2",
+            "request": "launch",
+            "mainClass": "lab2",
+            "projectName": "lab2_ccf319a3",
+            "args": "testcases/constants/c07.cnf"
+        }
+    ]
+}
