@@ -42,7 +42,12 @@ public class lab2 {
                                 //System.out.println(getPredicate(clause1));
                                 //System.out.println(getPredicate(clause2));
                                 if(getPredicate(clause1).equals(getPredicate(clause2))) {
-                                    if(getConstant(clause1).equals(clause2)) {
+                                    if(clause1.contains("(") && clause2.contains("(")) {
+                                        if(getConstant(clause1).equals(clause2)) {
+                                            clauses.get(x).remove(y);
+                                            clauses.get(a).remove(b);
+                                        }
+                                    } else {
                                         clauses.get(x).remove(y);
                                         clauses.get(a).remove(b);
                                     }
@@ -57,7 +62,12 @@ public class lab2 {
                             String clause2 = clauses.get(a).get(b);
                             if(clause2.contains("!")) {
                                 if(getPredicate(clause1).equals(getPredicate(clause2))) {
-                                    if(getConstant(clause1).equals(getConstant(clause2))) {
+                                    if(clause1.contains("(") && clause2.contains("(")) {
+                                        if(getConstant(clause1).equals(clause2)) {
+                                            clauses.get(x).remove(y);
+                                            clauses.get(a).remove(b);
+                                        }
+                                    } else {
                                         clauses.get(x).remove(y);
                                         clauses.get(a).remove(b);
                                     }

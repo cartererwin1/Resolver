@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "lab2",
             "projectName": "lab2_ccf319a3",
-            "args": "testcases/constants/c07.cnf"
+            "args": "testcases/prop/p01.cnf"
         }
     ]
 }
