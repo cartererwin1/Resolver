@@ -10,9 +10,15 @@ import java.util.HashSet;
 import java.util.Set;
 public class lab2 {
     public static String getPredicate(String clause) {
-        String predicate = clause;
-        predicate = clause.split("\\(")[0];
 
+        String predicate = clause;
+        if(predicate.indexOf("(")== -1) {
+          if (predicate.contains("!")) {
+            predicate = predicate.substring(1, predicate.length());
+          }
+          return predicate;
+        }
+        predicate = clause.split("\\(")[0];
         if (predicate.contains("!")) {
             predicate = predicate.substring(1, predicate.length());
         }
@@ -22,96 +28,110 @@ public class lab2 {
     public static String getConstant(String clause) {
         String constant = clause;
         constant = clause.split("\\(")[1];
-        constant = constant.substring(0, constant.length() - 2);
+        constant = constant.substring(0, constant.length() - 1);
         return constant;
     }
     public static String resolve(String[] predicates, String[] variables, String[] constants, ArrayList<ArrayList<String>> clauses) {
         //ArrayList<String> resolve = new ArrayList<>();
         //resolve.addAll(clauses);
+        ArrayList<String> line1 = new ArrayList<>();
+        ArrayList<String> line2 = new ArrayList<>();
+        System.out.println(clauses);
         for(int x = 0; x < clauses.size(); x++) {
-            for(int y = 0; y < clauses.get(x).size(); y++) {
-                String clause1 = clauses.get(x).get(y);
-                //System.out.println(clauses.get(x).get(y));
-                //System.out.println(getPredicate(clauses.get(x).get(y)));
+          //line1 is the current collection of clauses looked at
+          line1 = new ArrayList<String>();
+          line1.addAll(clauses.get(x));
+            for(int y = 0; y < line1.size(); y++) {
+                //clause 1 is the first clause to compare
+                String clause1 = line1.get(y);
+                //if clause1 is negated
                 if(clause1.contains("!")) {
-                    //System.out.println(clauses.get(x).get(y) + " is negated");
+                    //find another collection of clauses to compare
                     for(int a = 0; a < clauses.size(); a++) {
-                        for(int b = 0; b < clauses.get(a).size(); b++) {
-                            String clause2 = clauses.get(a).get(b);
+                        line2 = new ArrayList<String>();
+                        line2.addAll(clauses.get(a));
+                        for(int b = 0; b < line2.size(); b++) {
+                            //clause2 is the second clause to compare
+                            String clause2 = line2.get(b);
+                            //if clause1 is negated and clause 2 is not
                             if(!clause2.contains("!")) {
-                                //System.out.println(getPredicate(clause1));
-                                //System.out.println(getPredicate(clause2));
+                                //if the predicated match
                                 if(getPredicate(clause1).equals(getPredicate(clause2))) {
+                                    //if the clauses contain constants/variables
                                     if(clause1.contains("(") && clause2.contains("(")) {
-                                        if(getConstant(clause1).equals(clause2)) {
-                                            clauses.get(x).remove(y);
-                                            clauses.get(a).remove(b);
+                                      String constant1 = getConstant(clause1);
+                                      String constant2 = getConstant(clause2);
+                                      //if the constants match
+                                      if(constant1.equals(constant2)) {
+                                            line1.remove(y);
+                                            line2.remove(b);
                                         }
+                                    //else the clauses are just predicates that match !night and night
                                     } else {
-                                        clauses.get(x).remove(y);
-                                        clauses.get(a).remove(b);
-                                    }
+                                      line1.remove(y);
+                                      line2.remove(b);
+                                    }     
                                 }
                             }
                         }
+                        if(line1.isEmpty() || line2.isEmpty()) {
+                          System.out.println(clauses);
+                          return "no";
+                        }
+                        else {
+                          if(!clauses.contains(line1)) {clauses.add(line1);}
+                          if(!clauses.contains(line2)) {clauses.add(line2);}
+                        }
                     }
+                //else clause1 is not negated
                 } else {
-                    //System.out.println(clauses.get(x).get(y) + " is not negated");
+                    //find another collection of clauses to compare
                     for(int a = 0; a < clauses.size(); a++) {
-                        for(int b = 0; b < clauses.get(a).size(); b++) {
-                            String clause2 = clauses.get(a).get(b);
+                        line2 = new ArrayList<String>();
+                        line2.addAll(clauses.get(a));
+                        for(int b = 0; b < line2.size(); b++) {
+                            //clause2 is the second clause to compare
+                            String clause2 = line2.get(b);
+                            //if clause 1 is not negated and clause2 is
                             if(clause2.contains("!")) {
+                                //if the predicates match
                                 if(getPredicate(clause1).equals(getPredicate(clause2))) {
-                                    if(clause1.contains("(") && clause2.contains("(")) {
-                                        if(getConstant(clause1).equals(clause2)) {
-                                            clauses.get(x).remove(y);
-                                            clauses.get(a).remove(b);
-                                        }
-                                    } else {
-                                        clauses.get(x).remove(y);
-                                        clauses.get(a).remove(b);
+                                  //if the clauses contain constants/variables
+                                  if(clause1.contains("(") && clause2.contains("(")) {
+                                    String constant1 = getConstant(clause1);
+                                    String constant2 = getConstant(clause2);
+                                    //if the constants match
+                                    if(constant1.equals(constant2)) {
+                                      if(line1.get(y) == clause1) {
+
+                                      }
+                                      line1.remove(y);
+                                      line2.remove(b);
                                     }
+                                  } else {
+                                    line1.remove(y);
+                                    line2.remove(b);
+                                  }
                                 }
                             }
                         }
-                    }
-                }
-            }
-        }
-        //System.out.println(clauses);
-        for(ArrayList<String> array : clauses) {
-            if (!array.isEmpty()) {
-                return "yes";
-            }
-        }
-        return "no";            
-        /*
-            String clause = clauses.get(x).get(y).split("(")[0];
-            System.out.println(clause);
-            if(clauses.get(i).contains("!")) {
-                for(int j = 0; j < clauses.size() -1; j++) {
-                    if(i != j) {
-                        if(!clauses.get(j).contains("!")) {
-                            resolve.remove(i);
-                            resolve.remove(j);
+                        if(line1.isEmpty() || line2.isEmpty()) {
+                          System.out.println(clauses);
+                          return "no";
                         }
-                    }
-                }
-            }
-            else {
-                for(int j = 0; j < clauses.size() -1; j++) {
-                    if(i != j) {
-                        if(clauses.get(j).contains("!")) {
-                            resolve.remove(i);
-                            resolve.remove(j);
+                        else {
+                          if(!clauses.contains(line1)) {clauses.add(line1);}
+                          if(!clauses.contains(line2)) {clauses.add(line2);}
                         }
                     }
                 }
             }
         }
-        System.out.println(resolve); 
-        */
+        System.out.println(clauses);
+        return "yes";            
     }
+
+
     public static void main(String[] args) {
         Scanner sc;
         File inputFile = new File(args[0]);
