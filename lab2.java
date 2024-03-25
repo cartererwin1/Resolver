@@ -196,6 +196,10 @@ public class lab2 {
                                 resolve.addAll(line1);
                                 resolve.addAll(line2);
                                 resolved = true;
+                              } else if(clause1.split("(").length > 1) {
+                                //fnctions
+                              } else if (clause1.split(",").length > 0) {
+
                               }
                           //else the clauses are just predicates that match !night and night
                           } else {
