@@ -198,12 +198,28 @@ public class lab2 {
                       //} else if(clause1.split("(").length > 1) {
                       //fnctions
                     //universal and constants
+                    //clause 1 has a constant and clause 2 has a variable
                     } else if(constants.contains(getConstant(clause1)) && variables.contains(getConstant(clause2))) {
                       String newClause = getConstant(line1.get(y));
-                      newClause = getPredicate(line2.get(b)) + "(" + newClause + ")" ;
+                      line2.remove(clause2);
+                      String newClausePred = getPredicate(line2.get(0));
+                      newClause = "!" + newClausePred + "(" + newClause + ")" ;
                       resolve.add(newClause);
                       resolved = true;
-                    } else if (clause1.split(",").length > 1) {
+                    //clause1 has a var and clause 2 has a constant
+                    } else if(variables.contains(getConstant(clause1)) && constants.contains(getConstant(clause2))) {
+                      if(line1.size() == 1  && line2.size() == 1) {
+                        return "no";
+                      }
+                      String newClause = getConstant(line2.get(b));
+                      line1.remove(clause1);
+                      String newClausePred = getPredicate(line1.get(0));
+                      if(line1.get(0).indexOf("!") != -1) {
+                        newClause = "!" + newClausePred + "(" + newClause + ")" ;
+                      } else { newClause = newClausePred + "(" + newClause + ")" ;}
+                      resolve.add(newClause);
+                      resolved = true;
+                    }else if (clause1.split(",").length > 1) {
                       //System.out.println(clause1.split(",").length);
                       String preVar1one, preVar1two, preVar2one, preVar2two;
                       //clause1 contains multiple vars "buy(x1,x2)"
@@ -285,6 +301,7 @@ public class lab2 {
                       resolve.addAll(line2);
                       resolved = true;
                     }
+                    
                     //else the clauses are just predicates that match !night and night
                   } else {
                     line1.remove(y);
@@ -310,6 +327,9 @@ public class lab2 {
           } 
         }
       }
+    }
+    for(ArrayList<String> clause : clauses) {
+      //System.out.println(clause);
     }
     return "yes";
   }
