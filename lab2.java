@@ -148,7 +148,7 @@ public class lab2 {
     String newVar = "M" + nextVar;
     return newVar;
   }
-  public static String universals(String[] predicates, ArrayList<String> variables, String[] constants,
+  public static String universals(String[] predicates, ArrayList<String> variables, ArrayList<String> constants,
     ArrayList<ArrayList<String>> clauses) {
     ArrayList<String> line1 = new ArrayList<>();
     ArrayList<String> line2 = new ArrayList<>();
@@ -197,6 +197,12 @@ public class lab2 {
                       resolved = true;
                       //} else if(clause1.split("(").length > 1) {
                       //fnctions
+                    //universal and constants
+                    } else if(constants.contains(getConstant(clause1)) && variables.contains(getConstant(clause2))) {
+                      String newClause = getConstant(line1.get(y));
+                      newClause = getPredicate(line2.get(b)) + "(" + newClause + ")" ;
+                      resolve.add(newClause);
+                      resolved = true;
                     } else if (clause1.split(",").length > 1) {
                       //System.out.println(clause1.split(",").length);
                       String preVar1one, preVar1two, preVar2one, preVar2two;
@@ -231,26 +237,20 @@ public class lab2 {
                       } else {
                       //buy(x1,x2)
                       //buy(x3)   if x1 and x3
-                      preVar2one = clause2.split("\\)")[0]; //yields "buy(x1"
-                      preVar2one = preVar1one.split("\\(")[1]; // yields "x1"
+                        preVar2one = clause2.split("\\)")[0]; //yields "buy(x1"
+                        preVar2one = preVar1one.split("\\(")[1]; // yields "x1"
+                        if(variables.contains(preVar1two) && variables.contains(preVar2one)) {
+                          //buy(x1,x2)
+                          //buy(x3,x4)   if x2 and x4
+                          line1.remove(y);
+                          line2.remove(b);
+                          resolve.addAll(line1);
+                          resolve.addAll(line2);
+                          resolved = true;
+                        }
                       }
-                                // if only clause 2 contains multiple vars
-                              /*} else if(clause2.split(",").length > 0) {
-                                  String preVar1one, preVar1two, preVar2one, preVar2two;
-                                  preVar1one = clause1.split(",")[0]; //yields ["buy(x1","x2)"]
-                                  preVar1one = preVar1one.split("(")[1]; // yields "x1"
-                                  preVar2one = clause2.split(",")[1]; // yields "x2)"
-                                  preVar2one = preVar2one.split(")")[0]; // yields "x2
-                              } else {
-                                  String preVar1one, preVar1two, preVar2one, preVar2two;
-                                  preVar1one = clause1.split(",")[0]; //yields ["buy(x1","x2)"]
-                                  preVar1one = preVar1one.split("(")[1]; // yields "x1"
-                                  preVar2two = clause2.split(",")[0]; //yields ["buy(x1","x2)"]
-                                  preVar2two = preVar2two.split("(")[1]; // yields "x1"
-                              }
-                              */
-                    } 
-                          //else the clauses are just predicates that match !night and night
+                    }         
+                  //else the clauses are just predicates that match !night and night
                   } else {
                     line1.remove(y);
                     line2.remove(b);
@@ -333,9 +333,9 @@ public class lab2 {
             }
 
             line = sc.nextLine().strip().split(" ");
-            String[] constants = new String[line.length-1];
+            ArrayList<String> constants = new ArrayList<>();
             for(int i = 1; i < line.length; i++) {
-                constants[i-1] = line[i];
+                constants.add(line[i]);
             }
         
             line = sc.nextLine().strip().split(" ");
