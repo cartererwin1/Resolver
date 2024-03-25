@@ -197,7 +197,8 @@ public class lab2 {
                       resolved = true;
                       //} else if(clause1.split("(").length > 1) {
                       //fnctions
-                    } else if (clause1.split(",").length > 0) {
+                    } else if (clause1.split(",").length > 1) {
+                      //System.out.println(clause1.split(",").length);
                       String preVar1one, preVar1two, preVar2one, preVar2two;
                       //clause1 contains multiple vars "buy(x1,x2)"
                       String preVar1onetemp = clause1.split(",")[0]; //yields "buy(x1"
