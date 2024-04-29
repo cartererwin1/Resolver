@@ -1,5 +1,7 @@
 Predicates: buy
 Variables: x3
 Constants: Kim
+Functions:
+Clauses:
+!buy(SKF0)
 buy(x3)
-!buy(x3)

@@ -9,8 +9,15 @@
             "name": "lab2",
             "request": "launch",
             "mainClass": "lab2",
-            "projectName": "lab2_ccf319a3",
-            "args": "testcases/prop/p01.cnf"
+            "projectName": "lab2_ccf319a3"
+        },
+        {
+            "type": "java",
+            "name": "lab2",
+            "request": "launch",
+            "mainClass": "lab2",
+            "projectName": "lab2-2_5c934288",
+            "args": "testcases/functions/f2.cnf"
         }
     ]
 }
