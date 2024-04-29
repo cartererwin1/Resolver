@@ -40,115 +40,12 @@ public class lab2 {
         constant = constant.substring(0, constant.length() - 1);
         return constant;
     }
-    public static String resolve(String[] predicates, ArrayList<String> variables, String[] constants, ArrayList<ArrayList<String>> clauses) {
-        ArrayList<String> line1 = new ArrayList<>();
-        ArrayList<String> line2 = new ArrayList<>();
-        for(ArrayList<String> clause : clauses) {
-            //System.out.println(clause);
-        }
-        //loop for first collection of clauses
-        for(int x = 0; x < clauses.size(); x++) {
-            for(int a = 0; a < clauses.size(); a++) {
-                if(a == x) {
-                    continue;}
-                for(int y = 0; y < clauses.get(x).size(); y++) {
-                    ArrayList<String> resolve = new ArrayList<>();
-                    boolean resolved = false;
-                    //find another collection of clauses to compare
-                    for(int b = 0; b < clauses.get(a).size(); b++) {
-                        resolved = false;
-                        //line1 is the current collection of clauses looked at
-                        line1 = new ArrayList<String>();
-                        line1.addAll(clauses.get(x));
-                        //clause 1 is the first clause to compare
-                        String clause1 = line1.get(y);                            
-                        line2 = new ArrayList<String>();
-                        line2.addAll(clauses.get(a));
-                        //clause2 is the second clause to compare
-                        String clause2 = line2.get(b);
-                        //if clause1 is negated
-                        if(clause1.contains("!")) {
-                            //if clause1 is negated and clause 2 is not
-                            if(!clause2.contains("!")) {
-                                //if the predicated match
-                                if(getPredicate(clause1).equals(getPredicate(clause2))) {
-                                    //if the clauses contain constants/variables buy(x3)
-                                    if(clause1.contains("(") && clause2.contains("(")) {
-                                        String constant1 = getConstant(clause1);
-                                        String constant2 = getConstant(clause2);
-                                        //if the constants match
-                                        if(constant1.equals(constant2)) {
-                                            line1.remove(y);
-                                            line2.remove(b);
-                                            resolve.addAll(line1);
-                                            resolve.addAll(line2);
-                                            resolved = true;
-                                        }
-                                    //else the clauses are just predicates that match !night and night
-                                    } else {
-                                      line1.remove(y);
-                                      line2.remove(b);
-                                      resolve.addAll(line1);
-                                      resolve.addAll(line2);
-                                      resolved = true;
-                                    }   
-                                }
-                            }
-                        }
-                        else if(!clause1.contains("!")) {
-                            //if clause1 is negated and clause 2 is not
-                            if(clause2.contains("!")) {
-                                //if the predicated match
-                                if(getPredicate(clause1).equals(getPredicate(clause2))) {
-                                    //if the clauses contain constants/variables
-                                    if(clause1.contains("(") && clause2.contains("(")) {
-                                        String constant1 = getConstant(clause1);
-                                        String constant2 = getConstant(clause2);
-                                        //if the constants match
-                                        if(constant1.equals(constant2)) {
-                                            line1.remove(y);
-                                            line2.remove(b);
-                                            resolve.addAll(line1);
-                                            resolve.addAll(line2);
-                                            resolved = true;
-                                        }
-                                    //else the clauses are just predicates that match !night and night
-                                    } else {
-                                      line1.remove(y);
-                                      line2.remove(b);
-                                      resolve.addAll(line1);
-                                      resolve.addAll(line2);
-                                      resolved = true;
-                                    }   
-                                }
-                            }
-                        }
-                        if(!clauses.contains(resolve) && resolved) {
-                            resolve = removeDuplicates(resolve);
-                            clauses.add(resolve);
-                        }//&& resolv???
-                    }
-                    if(resolve.isEmpty() && resolved) { //&& resolved
-                        //System.out.println("-------");
-                        for(ArrayList<String> clause : clauses) {
-                            //System.out.println(clause);
-                        }
-                        return "no";
-                    } 
-                }
-            }
-        }
-        for(ArrayList<String> clause : clauses) {
-            //System.out.println(clause);
-        }
-        return "yes";            
-    }
 
   public static String getNextVariable() {
     String newVar = "M" + nextVar;
     return newVar;
   }
-  public static String universals(String[] predicates, ArrayList<String> variables, ArrayList<String> constants,
+  public static String resolve(String[] predicates, ArrayList<String> variables, ArrayList<String> constants,
     ArrayList<ArrayList<String>> clauses) {
     ArrayList<String> line1 = new ArrayList<>();
     ArrayList<String> line2 = new ArrayList<>();
@@ -355,8 +252,7 @@ public class lab2 {
                 lineNum++;
             }
             sc.close();
-            //System.out.println(resolve(predicates, variables, constants, clauses));
-            System.out.println(universals(predicates, variables, constants, clauses));
+            System.out.println(resolve(predicates, variables, constants, clauses));
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
